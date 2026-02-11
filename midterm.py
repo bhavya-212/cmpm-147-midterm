@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, render_template
 import random
+import os
 
 midterm = Flask(__name__)
 
