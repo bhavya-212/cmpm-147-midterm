@@ -92,4 +92,5 @@ def generate():
     return jsonify({"names": names})
 
 if __name__ == "__main__":
-    midterm.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    midterm.run(host="0.0.0.0", port=port, debug=True)
