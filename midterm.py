@@ -47,6 +47,41 @@ GRAMMARS = {
     }
 }
 
+BACKGROUNDS = {
+    "character": {
+        "harsh": {
+            "roles": ["mercenary", "thief", "warlock", "scientist", "assassin"],
+            "traits": ["scarred", "ruthless", "vengeful", "cruel", "rigid", "selfish"],
+            "goals": ["seeks revenge", "hunts ancient beasts", "guards hideouts", "overthrows the crown", "punishes betrayers"],
+        },
+        "elegant": {
+            "roles": ["scholar", "mage", "healer", "noble", "oracle", "diplomat", "jeweler"],
+            "traits": ["graceful", "soft-spoken", "dignified", "confident", "genuine", "generous"],
+            "goals": ["studies lost magic", "protects ancient knowledge", "guides royal courts", "restores hidden secrets"],
+        },
+        "whimsical": {
+            "roles": ["archer", "farmer", "tinker", "dreamer", "fortune teller"],
+            "traits": ["cheerful", "playful", "curious", "eccentric", "imaginative", "mischievous"],
+            "goals": ["collects strange stories", "searches for shiny things", "runs around in circles", "digs for mushrooms"],
+        }
+    },
+    "place": {
+        "harsh": {
+            "description": ["fortified", "abandoned", "torn", "gloomy", "sunken", "rotting", "corrupted"],
+            "features": ["jagged cliffs", "rustic gates", "ghostly ruins", "deep mines"],
+        },
+        "elegant": {
+            "description": ["luxurious", "ancient", "enchanted", "starlit", "shimmering", "ethereal"],
+            "features": ["towering flags", "gold fountains", "fairy gardens", "ornate halls", "shimmering statues"],
+        },
+        "whimsical": {
+            "description": ["colorful", "sleepy", "miniature", "iridescent", "whispering", "translucent"],
+            "features": ["floating forests", "singing wells", "flower fields", "friendly markets", "rolling hills"],
+        }
+    }
+}
+
+
 LENGTH_RANGE = {
     "short": (1, 2),
     "medium": (4, 6),
@@ -67,6 +102,20 @@ def generate_name(category, tone, length=None):
     name = prefix + core + suffix
     return name.capitalize()
 
+def generate_background(category, tone, name):
+    bg = BACKGROUNDS[category][tone]
+
+    if category == "character":
+        role = random.choice(bg["roles"])
+        trait = random.choice(bg["traits"])
+        goal = random.choice(bg["goals"])
+        return f"{name} is a {trait} {role} who {goal}."
+
+    elif category == "place":
+        descriptor = random.choice(bg["description"])
+        feature = random.choice(bg["features"])
+        return f"{name} is a {description} place known for its {feature}."
+
 @midterm.route("/")
 def index():
     return render_template("index.html")
@@ -80,17 +129,23 @@ def generate():
     count = data.get("count")
 
     if category not in GRAMMARS or tone not in GRAMMARS[category] or length not in LENGTH_RANGE:
-        return jsonify({"error": "Invalid input"}), 400
+        return jsonify({"Error": "Invalid input"}), 400
 
     try:
         count = int(count)
         if count <= 0:
             raise ValueError
     except:
-        return jsonify({"error": "Count must be a positive integer"}), 400
+        return jsonify({"Error": "Number must be positive"}), 400
 
-    names = [generate_name(category, tone, length) for _ in range(count)]
-    return jsonify({"names": names})
+    results = []
+
+for _ in range(count):
+    name = generate_name(category, tone, length)
+    description = generate_background(category, tone, name)
+    results.append(description)
+
+return jsonify({"results": results})
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
