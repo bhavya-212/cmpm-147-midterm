@@ -46,7 +46,7 @@ async function generate() {
   const count = parseInt(document.getElementById("count").value);
 
   if (isNaN(count) || count <= 0) {
-    document.getElementById("output").textContent = "Enter a valid count";
+    document.getElementById("output").textContent = "Enter valid number";
     return;
   }
 
@@ -65,8 +65,8 @@ async function generate() {
     });
 
     const data = await response.json();
-    if (data.names) {
-      document.getElementById("output").textContent = data.names.join("\n");
+    if (data.results) {
+      document.getElementById("output").textContent = data.results.join("\n");
     } else if (data.error) {
       document.getElementById("output").textContent = "Error: " + data.error;
     }
