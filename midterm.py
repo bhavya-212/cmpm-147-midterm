@@ -112,7 +112,7 @@ def generate_background(category, tone, name):
         return f"{name} is a {trait} {role} who {goal}."
 
     elif category == "place":
-        descriptor = random.choice(bg["description"])
+        description = random.choice(bg["description"])
         feature = random.choice(bg["features"])
         return f"{name} is a {description} place known for its {feature}."
 
