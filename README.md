@@ -3,6 +3,8 @@ FANTASY NAME GENERATOR
 
 This generator creates fantasy names based on the parameters and a random background to go along with the names.
 
+Link: https://fantasy-name-generator.onrender.com/ 
+
 Generating names: The generator takes in predetermined prefixes, suffixes, and chunks to create a name.
 
 Generating backgrounds: The generator takes in predetermined roles, traits, and goals to create a background.
