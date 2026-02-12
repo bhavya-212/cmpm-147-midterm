@@ -140,12 +140,12 @@ def generate():
 
     results = []
 
-for _ in range(count):
-    name = generate_name(category, tone, length)
-    description = generate_background(category, tone, name)
-    results.append(description)
+    for _ in range(count):
+        name = generate_name(category, tone, length)
+        description = generate_background(category, tone, name)
+        results.append(description)
 
-return jsonify({"results": results})
+    return jsonify({"results": results})
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
